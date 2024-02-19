@@ -1,3 +1,62 @@
 This file covers an introduction into Splunk and Chronicle.
 
-Splunk
+Perform a query with Splunk
+    The program Splunk was downloaded and opened in browser for this lab and introduction.
+    A sample .pcap file with data packets was given to upload and explore.
+    Task 1. View all recorded events
+        Use the main to search for index=main.
+        This returns all items that have been indexed in a given time frame, in this case all time.
+        The returned items show fields such as host, source and sourcetype.
+        Host refers to who or what is the origin of the event.
+        Source refers to the origin file name for the event.
+        Sourcetype refers to how the data is formatted. 
+
+    Task 2. Narrow your search to find the events from the mail server.
+        The search in narrowed with the prompt index=main host=mailsv.
+        To search within this list for failed login attempts we add the string fail* root.
+        This is to catch fail, failure and failed with the * wildcard
+        Root is added to catch that word in addition to fail*.
+
+This conculded the Perform a query with Splunk Lab.
+
+Perform a query with Chronicle
+    Chronicle was opened in browser for this lab and introduction.
+    Task 1. Perform a domain search.
+        In the chronicle search bar the prompt 'signin.office365x24.com' was enetered and under DOMAINS
+            it was a selectable option, and was chosen. The view was set to legacy for this lab.
+        This view presented multiple pieces of information about the domain.
+        VT CONTEXT - give Virustotal information about the domain
+        WHOIS - give information about the domain using the WHOIS directory
+        Prevalence - This is a graph showing how often a domain has or is being accessed.
+        RESOLVED IPS - This shows the IP address that maps to that given domain name.
+        ET INTELLIGENCE REP LIST - This gives additional insights about the domain useing ProofPoint's
+            Emerging Threats Intelligence Rep List.
+        Timeline - By clicking expand all shows all HTTP GET and POST requests.
+        Assets - This shows assets that have access to a domain.
+    
+    Task 2. Investigate the Threat data
+        Opening the VT CONTEXT shows that 10 vendors have flagged this as malicious
+        The ET INTELLIGENCE REP LIST shows that this website is a drop site for logs or stolen credentials.
+    
+    Task 3. Investigate the Affected Assets and events
+        In the timeline we can see that 6 unique assets have accessed the domain.
+        They are as follows:(Ashton-davidson-pc,
+                            Bruce-monroe-pc,
+                            Coral-alvarez-pc,
+                            Emil-palmer-pc,
+                            Jude-reyes-pc,
+                            Roger-spence-pc)
+        Of those who have accessed the domain POST requests were made by 2 assets.
+        They are as follows:(Ashton-davidson-pc,
+                            emil-palmer-pc)
+        POST indicated information was sent to the server and could indicate a successful phishing attack.
+    
+    Task 4. Investigate Resolved IP address
+        Under the Resolved IP tab the ip of 40.100.174.34 is listed.
+        This has the same POST requests with the addition of warren-morris-pc.
+        There are also two more affected assets which are as follows:(amir-david-pc, warren-morris-pc)
+        Additionally the domain of signin.accounts-gooqle.com is affilated with this IP.
+
+This concludes the Perform a query with Chronicle Lab.
+
+
