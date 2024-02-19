@@ -1,0 +1,59 @@
+SELECT command allows you to specificy the columns of a table you want to view with each column header seperated by a comma. You and list specific columns or * to get all columns in a table.
+
+FROM allows you to pick which data table you would like to reference.
+
+ORDER BY allows you to pick a column to sort the table by as well as if you would like to 
+    sort it in ascending or descending order. Multiple order requests can be made and it will order 
+    the list by your first command, within entries sharing the same output as the first command, 
+    sort the subsiquent group.
+
+-WHERE can be used to filter with a boolean logic operator such as '=', '<', '>' etc this would look like 
+    country = 'USA' to only return record that have a specific value.
+    -A note is that not equal is '<>' not != as it is in some languages.
+
+-LIKE can be used in place of the boolean operator sign to search for something general with % acting as a wildcard. 
+    An example would be "WHERE office LIKE 'EAST%';"
+
+-Wildcards can come in various forms
+    % is a wild card of unspecified length
+    _ is a wild card of length 1 meaning for each _ the results show if and only if they have the specificed text and only one addition char in the specified place.
+
+-Boolean operator phrases such as AND, OR and NOT, can be included in a query.
+    -NOTE: After a quick google it does seem that there is not an XOR operate phrase.
+
+Project Example:
+-Task: Write a query to find all failed login attempts from the log_in_attempts table that occured after business hours.
+-Query: SELECT *
+FROM log_in_attempts
+WHERE login_time > '18:00' AND success = 0;
+-Result: This returned the desired query with 19 positive results.
+
+-Task: Write a query to find the failed login attempts from the log_in_attempts table on 2022-05-09 and 2022-05-08.
+-Query: SELECT *
+FROM log_in_attempts
+WHERE login_date = '2022-05-09' OR login_date = '2022-05-08';
+-Result: This returned the desired query with 75 psotive results.
+
+Task: Write a query to find the login attempts from the log_in_attempts table originiating outside of Mexico.
+Query: SELECT *
+FROM log_in_attempts
+WHERE NOT country like 'MEX%';
+-Result: This returned the desired query with 144 psotive results.
+
+Task: Write a query showing all the information about the marketing employees in the east office.
+Query SELECT*
+FROM employees
+WHERE department = 'Marketing' and office LIKE 'E%';
+-Result: This returned the desired query with 7 psotive results.
+
+Task: Write a query showing all the information about the sales and finance employees.
+Query SELECT*
+FROM employees
+WHERE department = 'Finance' or department = 'Sales';
+-Result: This returned the desired query with 71 psotive results.
+
+Task: Write a query showing all the information about all the employees not in the IT department.
+Query SELECT*  
+FROM employees 
+WHERE NOT department = 'Information Technology';
+-Result: This returned the desired query with 161 psotive results.

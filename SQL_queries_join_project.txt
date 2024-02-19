@@ -1,0 +1,43 @@
+SQL Join Notes and Project
+
+When joining tables to specify a column within a table it is written as 'table.column_name format'.
+
+Join types
+INNER JOIN - returns rows that match a specified column that exist in more than one table, but drops rows that do not have a match.
+
+Out Joines
+LEFT JOIN - Returns all the left table and only the matching parts of the right table.
+RIGHT JOIN - Returns all of the right tbale and only the matching parts of the left table.
+FULL OUTER JOIN - Returns all columns from all called tables.
+
+Project: Coplete a SQL Join
+
+-Task:First, you must identify which employees are using which machines. 
+    The data is located in the machines and employees tables.
+    You must use a SQL inner join to return the records you need based on a connecting column. 
+    In the scenario, both tables include the device_id column, which you’ll use to perform the join.
+- Query: SELECT *  
+FROM machines  
+INNER JOIN employees ON machines.device_id = employees.device_id;
+-Result: This returned the desire information with 185 postive results.
+
+
+-Task: Run the following SQL query to connect the machines and employees tables through a left join.
+- Query: SELECT *  
+FROM machines  
+LEFT JOIN employees ON machines.device_id = employees.device_id;
+-Result: This returned the desire information with 200 postive results.
+
+-Task: Run the following SQL query to connect the machines and employees tables through a RIGHT join.
+- Query: SELECT *  
+FROM machines  
+LEFT JOIN employees ON machines.device_id = employees.device_id;
+-Result: This returned the desire information with 200 postive results.
+
+Task: To continue investigating the security incident, you must retrieve the information on all 
+    employees who have made login attempts. To achieve this, you’ll perform an inner join on the employees and 
+    log_in_attempts tables, linking them on the common username column.
+- Query: SELECT *
+FROM employees
+INNER JOIN log_in_attempts ON employees.username = log_in_attempts.username;
+-Result: This returned the desire information with 200 postive results.

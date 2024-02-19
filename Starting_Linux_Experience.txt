@@ -1,0 +1,112 @@
+During the intro section to linux in the cyber security course I have become familiar with and used several linux commands.
+
+Directory Navigating and Movement
+Commands
+    The first commands involved navigating and viewing the contents to directories.
+
+    The first command is the 'ls' command. This is used to view the contents of a directory that the user is in.
+
+    The next command is 'pwd' this prints the current working director with the absolute path from the root directory.
+
+    To naviage the "cd" is used for moving into and out of target directories.
+        This can be layered to move multiple directories at once.
+        The format would be 'cd desired_directory' or 'cd sub_directory_1/sub_directory_2/desired_directory' etc
+
+    The next commands were on how to move information within directories, or create and delete directories and files.
+
+    To create something mkdir allows the user to create a director and touch is used to create a file.
+        The format is 'touch file.format'. This would create a file in the given format. 
+
+    To remove something rmdir allows the user to delete a director (you are warned if the directory still has contents), 
+        and rm is used to remove files.
+        The format is 'rmdir directory'. 
+        This would remove a directory with the name directory
+
+    Moving files or directories use the mv command followed by the desired new location of the moved entry followed 
+        by its name.
+        The format is 'mv directory /home/new_location' or 'mv file.format /home/new_location'. 
+        This would move those objects to the new_location directory and remove them from the current directory.
+
+    Copying a file or directories uses the cp command and uses the same input structure as mv, except it makes a 
+        copy in the new location instead of transplanting the targeted file or directory.
+        The format is 'cp directory /home/new_location' or 'cp file.format /home/new_location'. 
+        This would copy those objects to the new_location directory and leave the original in the current directory.
+
+Project:
+The initial project I was given a direcotry in the format below and was tasked with reorganizing it.
+Initial State:
+home
+  |-analyst
+  |-notes
+  |  |-Q3patches.txt
+  |  |-tempnotes.txt
+  |-reports
+  |  |-Q1patches.txt
+  |  |-Q2patches.txt
+  |-temp
+Target State:
+home  
+  |-analyst
+  |  |-logs
+  |  |-notes
+  |    |-tasks.txt
+  |-reports
+     |-Q1patches.txt
+     |-Q2patches.txt
+     |-Q3patches.txt
+
+
+A combination of all of these commands were used in a lab project to reorganize a director and the files with
+    to elimnate unused or old files and directories, and to reoganized files and directories into a more clear structure.
+    This involved moving contents that were miscategorized into a directory so like items were grouped together, 
+    drafting a new txt document, and clearing out an old and unused txt file and an empty directory.
+
+Permissions
+    Following this the way to view file permissions and how to edit permissions were covered.
+How permissions are displayed:
+    Permissions are shown as a string of 10 chars the first being either a - or a d to designate a file or a directory.
+    The reamining 9 chars are in groups of 3 the first being for the owner, then the group of that owner, then other.
+    The 3 chars assigned to each user type are r, w and x for 'read', 'write' and 'execute'.
+    A letter being present means that the user level has the given permission and a - means that permission is 
+    not available to that user type.
+
+Commands
+The modified command 'ls -a' to view all files, including hidden files. 'ls -l' is used to view non-hidden file 
+    permissions or the joined 'ls -la' to view all files, including hidden files and the granted permissions 
+    in drwxrwxrwx format.
+
+To modify permissions the command 'chmod' is used. This is followed by u,g or o to represent the user, group, 
+    or other along with +/-/= and a r/w/x to grant or revoke read, write, execute permissions of various groups.
+This is done in the format 'chmod u+r file.format'. This would add read permission to the user for a file with 
+    the assocaited format.
+The same format can be used to edit directory permissions, just replace the file with a directory name.
+Multiple changes to permissions can be strung together to edit multiple permissions for a single file or 
+    directory by seperating the changes with a comma.
+
+These commands, in addition to those above were used in a lab to alter the permissions of users, groups and 
+    others in a sample directory.
+This involed restricting other access, limiting group and owner access to read only permissions on archived files, 
+    and removing group permission to files classified to only the user.
+
+Project update and alter permissions for the contents of the 'projects' direcotry:
+Initial State
+total 32
+drwxr-xr-x 3 researcher2 research_team 4096 Feb 18 00:11 .
+drwxr-xr-x 3 researcher2 research_team 4096 Feb 18 01:08 ..
+-rw--w---- 1 researcher2 research_team   46 Feb 18 00:11 .project_x.txt
+drwx--x--- 2 researcher2 research_team 4096 Feb 18 00:11 drafts
+-rw-rw-rw- 1 researcher2 research_team   46 Feb 18 00:11 project_k.txt
+-rw-r----- 1 researcher2 research_team   46 Feb 18 00:11 project_m.txt
+-rw-rw-r-- 1 researcher2 research_team   46 Feb 18 00:11 project_r.txt
+-rw-rw-r-- 1 researcher2 research_team   46 Feb 18 00:11 project_t.txt
+
+Final State:
+total 32
+drwxr-xr-x 3 researcher2 research_team 4096 Feb 18 00:11 .
+drwxr-xr-x 3 researcher2 research_team 4096 Feb 18 01:08 ..
+-r--r----- 1 researcher2 research_team   46 Feb 18 00:11 .project_x.txt
+drwx--x--- 2 researcher2 research_team 4096 Feb 18 00:11 drafts
+-rw-rw-r-- 1 researcher2 research_team   46 Feb 18 00:11 project_k.txt
+-rw------- 1 researcher2 research_team   46 Feb 18 00:11 project_m.txt
+-rw-rw-r-- 1 researcher2 research_team   46 Feb 18 00:11 project_r.txt
+-rw-rw-r-- 1 researcher2 research_team   46 Feb 18 00:11 project_t.txt

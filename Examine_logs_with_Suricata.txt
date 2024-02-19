@@ -1,0 +1,47 @@
+Notes taken for Suricata
+
+Lab: Examine alerts, logs, and rules with Suricata.
+
+    Task 1. Examine a custom rule in Suricata.
+    To view the rule the command cat custom.rules is used to view the contents of custom.rules 
+        Printed Rule:
+        alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"GET on wire"; flow:established,to_server; 
+        content:"GET"; http_method; sid:12345; rev:3;)
+    The rule is an alert as per the first word, these can also be things like pass, drop, or reject.
+    The head 'http $HOME_NET any -> $EXTERNAL_NET any' determines the protocol to apply the rule to,
+        in this case HTTP, and the fields are two suricata defined variables of $HOME_NET and $EXTERNAL_NET
+        which represent the home network and in this case, the internet.
+    Rule options are all of the text within the parenthesis. 
+        The sectoin 'msg:' says what message is coming with the alert, in this case 'Get on wire'. 
+        flow:established,to_server says the servers should be matched meaning a SYN-ACK has been sent.
+        content:"GET" just means that the word GET is in the content of the http.method portion of the packet.
+        sid: is a custom number  or signature ID we choose for the alert.
+        rev: is the revision number letting us know how many times this rule has been updated.
+
+    Task 2. Trigger a custom rule in Suricata
+        To run the program the command sudo suricata -r sample.pcap -S custom.rules -k none is ran.
+            Breaking down the command:
+            The -r sample.pcap means that the sample.pcap file is ran, which simulates network traffic.
+            The -S custom.rules tells Suricata to use the rules within the custom.rules file.
+            -k none tells Suricata to not use any checksum checks.
+        After running the command, four new files are made, eve.json, fast.log, stats.log, and suricata.log
+
+    Task 3. Examine the eve.json output
+        The command cat /var/log/suricata/eve.json is ran and spits out the raw data of the json, which is 
+            fairly unintelligable since it is all mashed together. 
+        The command jq . /var/log/suricata/eve.json | less returns a human readable output. Pressing 'q' 
+            returns us to the command line 
+        To extract the data we want the below command is used.
+            jq -c "[.timestamp,.flow_id,.alert.signature,.proto,.dest_ip]" /var/log/suricata/eve.json
+        Which returns the below outputs showing the timestamp, flow_id, alerts signature, the protocol,
+        and the destination ip. 
+            ["2022-11-23T12:38:34.624866+0000",35573407053973,"GET on wire","TCP","142.250.1.139"]
+            ["2022-11-23T12:38:58.958203+0000",1510909707195636,"GET on wire","TCP","142.250.1.102"]
+        We can also search for anything with a given flow_id with the below command. Where 'id' is the 
+            desired flow id to be inspected. In this case the id used was from the first returned packet
+            above: 35573407053973
+            jq "select(.flow_id== 'id' )" /var/log/suricata/eve.json
+            jq "select(.flow_id== 35573407053973 )" /var/log/suricata/eve.json
+
+    This concludeds the Lab.
+

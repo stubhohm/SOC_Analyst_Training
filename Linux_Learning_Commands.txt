@@ -1,0 +1,10 @@
+The following commands can be used as learning resources within Linux.
+
+The first command 'whatis' returns the manual pages for the command following the 	whatis prompt. 
+    	For example 'what is cat' returns cat (1) - concatenate files and print 	on the standard output.
+	If I want more in detail information I can use 'man' followed by the command 	to access the manual pages of the command.
+
+However, I may not know what command to use, but I know what I want it to achieve.
+	For example, what if I wanted to print the first part or start of a file. 		This would be a use case for apropos.
+
+The command 'apropos -a first part file' returns head (1) - output the first part 		of a file. With the simple ask and a few key words, I have found a command 	that will do exactly what I want.

@@ -1,0 +1,97 @@
+These notes cover the basics of packet sniffing.
+
+The two intro packet sniffing programs within the course are Wireshark and tcpdump.
+Both programs are free to download and use, the largest difference between the two
+    is that tcpdump uses a CLI where as Wireshark is a GUI. There are additional differences,
+    such as compute resources needed to run, but for my level of use right now, that it getting
+    into the weeds.
+
+Lab: Wireshark Intro to packet inspection
+    In the wireshark scenario I am an analayst with the current task of investigating 
+        traffic to a website. 
+
+    A .pcap file is provided in the scenario and is opens with the wireshark program.
+        This opens the GUI showing the time stamps, sources, destinations, protocols,
+        and other high level information about the packets that were captured.
+
+    Task 1. The goal is to find an echo or ping request and identify which protocol was used,
+        which was the ICMP. 
+
+    Task 2. The goal is to apply basic wireshark filters and inspect a packet.
+        The query ip.addr == 142.250.1.139 was used to find all traffic in the packet with the 
+            specified IP address of 142.250.1.139. The first packet was opened and the Frame,
+            Ethernet II, IPV4 and TCP subtrees were opened to view the contents of those subtrees.
+        In the TCP subtree the destination port was port 80 which is used as a listening port HTTP
+            websites.
+        Within the TCP subtree, the Flags were also inspected to become generally familiar with
+            how they are presented.
+    
+    Task 3. Using Filters to select specific packets.
+        The query ip.src == 142.250.1.139 was used to find all packets with a source IP of 142.250.1.139.
+        The followiing query of ip.dist == 142.250.1.139 was used to find the packets with that IP 
+            as its destination.
+        The query of eth.addr == 42:01:ac:15:e0:02 was used to find all packets with the given MAC address.
+            Within the list of filtered packets, under the Ethernet II subtree, the queried MAC address will always
+            be either the source or the destination. In this specific case, the first packet used the TCP.
+
+    Task 4. Use Filters to explore DNS packets.
+        The query of udp.port == 53 was used and displayed all traffic on port 53 which relates to DNS queries.
+            Within the first packet, in the Domain Name System (query) subtree a section headed as Queries showed
+            that the website that was queried was opensource.google.com.
+        Several packets later, within Domanin Name System(query) of the new packet has an Answers header which
+            shows the answer for the opensource.google.com address and the associated IP being 142.250.1.139.
+
+    Task 5. Use filters to explore TCP packets
+        The query tcp.port == 80 is used to view traffic on the TCP port 80 which is the defualt port used for 
+            internet traffic.
+        The first packet when filtered this way had a destination ip of 169.254.196.254 and used IPV4 with a packet
+            TTL of 64, Frame length of 54 bytes, and a header length of 20 bytes.
+        The query tcp contains "curl" which then filters for all packets that were made with the web request "curl".
+    
+    This concluded Wireshark intro lab.
+
+Lab: Capture your first packet
+    In this lab I am tasked with using tcp dump and capturing network traffic to create a p-cap file.
+        which will then be inspected.
+    
+    Task 1. To identify available interfaces to collect network traffic.
+        I first use the linux command 'sude ifconfig' which outputs a list of interfaces and details about them.
+        One of the presented interfaces is eth0, and the eth prefix is used as an internet interface.
+        To ensure the interface is available for packet capture I run the command 'sudo tcpdump -D'.
+        This command can also be used to networks that do not use the ifconfig command.
+    
+    Task 2. Filter live network packet traffic on the chosen interface.
+        The command sudo tcpdump -i etho0 -v -c5 is used. -i is where I specify the interface, which for this lab was 
+            eth0, -v is the verbose switch to get more information and -c5 is to return 5 packets of data.
+        The information of the packets was then reviewed, such as the the tcpdump confirming it was listening on 
+            eth0 interfacce, as well as giving me the link-type and the capture size.
+        The next line shows the timestamp for the packet followed by the protocol type, in this case IP.
+        Using -v gave addition information in the next line such as the TOS, TTL, offset, Flags, IP type, 
+            and packet length.
+        The next section shows which systems are in communication. 
+        The remaining data is shown as the Flags, checksum, and sequence and acknowlegement numbers, window size and length
+            of innt TCP packet.
+    
+    Task 3. Capture network traffic with tcpdump
+        To capture the data the command sudo tcpdump -i eth0 -nn -c9 port 80 -w capture.pcap &.
+            This is a lengthy command but this is the same as the previous tasks command until we reach 
+            -nn. The -nn switch keeps the port and ip names as they are and does not interpret them.
+            The -c9 port 80 captures 9 packets on port 80, -w capture.pcap writes the results to a new or
+            existing file names capture.pcap. The & tells linux to run this command in the background.
+        Now I need to create data for the previous command to find. The command  curl opensource.google.com
+        is ran and when used in this way the curl command opens a website of the given domain name and generates
+        HTTP traffic, which the tpcdump will be able to spot on port 80, which it is currently monitoring.
+        Once that has ran, the ls -l capture.pcap verifies that a new file has been created.
+
+    Task 4. Filter the captured packet data
+        Filtering the data is done with the command sudo tcpdump -nn -r capture.pcap -v. This command uses the same
+            switch as before, except that -r is to read the capture.pcap file instead of write to the file.
+        Now to expand the information with in the packets, the command sudo tcpdump -nn -r capture.pcap -X displays
+            the packet contents in hexadecimal format.
+    
+    This concluded the lab.
+        
+
+
+    
+
