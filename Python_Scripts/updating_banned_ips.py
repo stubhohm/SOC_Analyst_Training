@@ -8,17 +8,22 @@ file_path = "Python_Scripts//allow_list.txt"
 after_file_path = "Python_Scripts//updated_allow_list.txt"
 
 # open the file in the desinaged file path
+# With creates a varaible local to itself that is declared after 'as' and is where the opened item is stored
+# "r" means open the called item with read permission
 with open(file_path, "r") as file:
-    # read and split the file
+    # read and split the file into a list
     ip_addresses = file.read().split()
 
 # iterate through the ip_address list and check for any in the remove_list
 for element in ip_addresses:
     if element in remove_list:
+        # remove medthod only removes the first instance of the element, hence needing to check the entire list.
         ip_addresses.remove(element)
 
 # Return list to a string to rewrite to a new file
 ip_addresses = "\n".join(ip_addresses)
 
+# Store file in a new file with the location given above
+# "w" means to open the called item with write permission
 with open(after_file_path, "w") as file:
     file.write(ip_addresses)
